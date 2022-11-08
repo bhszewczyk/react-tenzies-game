@@ -18,7 +18,7 @@ main header p {
 }
 
 .dice-container {
-	display: flex;
-	flex-wrap: wrap;
-	padding: 2rem;
+	display: grid;
+	grid-template: auto auto / repeat(5, 1fr);
+	gap: 1rem;
 }

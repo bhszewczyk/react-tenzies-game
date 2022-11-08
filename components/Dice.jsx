@@ -3,20 +3,24 @@ import Die from './Die';
 import './dice.css';
 
 export default function Dice() {
-	const dice = [];
+	const [dice, setDice] = React.useState(generateDice());
 
-	for (let i = 0; i < 10; i++) {
-		const rolledDice = Math.floor(Math.random() * 6 + 1);
+	function generateDice() {
+		const diceArr = [];
+		for (let i = 0; i < 10; i++) {
+			const rolledDice = Math.floor(Math.random() * 6 + 1);
 
-		const die = {
-			id: i,
-			value: rolledDice,
-		};
+			const die = {
+				id: i,
+				value: rolledDice,
+			};
 
-		dice.push(die);
+			diceArr.push(die);
+		}
+		return diceArr;
 	}
 
-	const diceEls = dice.map((dice) => <Die key={dice.id} dice={dice} />);
+	const diceEls = dice.map((die) => <Die key={die.id} die={die} />);
 
 	return (
 		<main>
