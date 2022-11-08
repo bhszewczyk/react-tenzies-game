@@ -20,6 +20,10 @@ export default function Dice() {
 		return diceArr;
 	}
 
+	function getNewRoll() {
+		setDice(() => generateDice());
+	}
+
 	const diceEls = dice.map((die) => <Die key={die.id} die={die} />);
 
 	return (
@@ -32,6 +36,9 @@ export default function Dice() {
 				</p>
 			</header>
 			<div className='dice-container'>{diceEls}</div>
+			<button className='btn' onClick={getNewRoll}>
+				Roll
+			</button>
 		</main>
 	);
 }

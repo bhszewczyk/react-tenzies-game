@@ -21,4 +21,20 @@ main header p {
 	display: grid;
 	grid-template: auto auto / repeat(5, 1fr);
 	gap: 1rem;
+	margin-bottom: 2rem;
+}
+
+.btn {
+	border: 0;
+	padding: 1.2rem 3.2em;
+	background-color: #5035ff;
+	color: #fff;
+	font-family: inherit;
+	border-radius: 5px;
+	font-weight: 600;
+	font-size: 1.6rem;
+}
+
+.btn:hover {
+	background-color: #5d46f9;
 }
