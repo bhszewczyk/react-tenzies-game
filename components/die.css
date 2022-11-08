@@ -1,0 +1,16 @@
+.die {
+	height: 5rem;
+	width: 5rem;
+	background-color: #fff;
+	color: #2b283a;
+	display: inline-block;
+	margin: 1rem;
+	display: flex;
+	font-size: 3rem;
+	align-items: center;
+	justify-content: center;
+	border-radius: 5px;
+	color: #2b283a;
+	font-weight: bold;
+	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
