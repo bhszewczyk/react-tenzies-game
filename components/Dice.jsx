@@ -4,7 +4,25 @@ import './dice.css';
 import { nanoid } from 'nanoid';
 
 export default function Dice() {
+	const [isGameOver, setGameOver] = React.useState(false);
 	const [dice, setDice] = React.useState(generateDice());
+
+	React.useEffect(() => {
+		const allHeld = dice.every((die) => die.isHeld === true);
+
+		if (!allHeld) {
+			return;
+		}
+
+		const value = dice[0].value;
+		const valuesMatch = dice.every((die) => die.value === value);
+
+		if (!valuesMatch) {
+			return;
+		}
+
+		setGameOver(true);
+	}, [dice]);
 
 	function generateDice() {
 		const diceArr = [];
@@ -23,18 +41,24 @@ export default function Dice() {
 	}
 
 	function getNewRoll() {
-		setDice(() => generateDice());
-	}
+		setDice((oldState) => {
+			const newState = oldState.map((die) => {
+				if (die.isHeld === true) {
+					return die;
+				} else {
+					return { ...die, value: Math.floor(Math.random() * 6 + 1) };
+				}
+			});
 
-	console.log(dice);
+			return newState;
+		});
+	}
 
 	function holdDice(id) {
 		setDice((oldState) => {
 			const updatedArr = [];
-			const clickedDie = oldState.find((die) => die.id === id);
-			console.log(clickedDie);
 
-			for (const die of dice) {
+			for (const die of oldState) {
 				if (die.id === id) {
 					updatedArr.push({ ...die, isHeld: !die.isHeld });
 				} else {
@@ -46,12 +70,27 @@ export default function Dice() {
 		});
 	}
 
+	function startAgain() {
+		setGameOver(false);
+
+		setDice(generateDice());
+	}
+
 	const diceEls = dice.map((die) => (
 		<Die key={die.id} die={die} holdDie={() => holdDice(die.id)} />
 	));
 
-	return (
-		<main>
+	const wonEl = (
+		<div>
+			<h1>You won!</h1>
+			<button className='btn' onClick={startAgain}>
+				Play again!
+			</button>
+		</div>
+	);
+
+	const gameEl = (
+		<div>
 			<header>
 				<h1>Tenzies</h1>
 				<p>
@@ -63,6 +102,8 @@ export default function Dice() {
 			<button className='btn' onClick={getNewRoll}>
 				Roll
 			</button>
-		</main>
+		</div>
 	);
+
+	return <main>{isGameOver ? wonEl : gameEl}</main>;
 }
