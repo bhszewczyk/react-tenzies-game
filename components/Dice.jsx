@@ -8,6 +8,9 @@ export default function Dice() {
 	const [isGameOver, setGameOver] = React.useState(false);
 	const [dice, setDice] = React.useState(generateDice());
 	const [counter, setCounter] = React.useState(1);
+	const [rollsToBeat, setRollsToBeat] = React.useState(
+		localStorage.getItem('toBeat') || null
+	);
 
 	React.useEffect(() => {
 		const allHeld = dice.every((die) => die.isHeld === true);
@@ -22,6 +25,16 @@ export default function Dice() {
 		if (!valuesMatch) {
 			return;
 		}
+
+		setRollsToBeat((oldState) => {
+			if (!oldState) {
+				return counter;
+			} else if (oldState < counter) {
+				return oldState;
+			} else {
+				return counter;
+			}
+		});
 
 		setGameOver(true);
 	}, [dice]);
@@ -74,6 +87,7 @@ export default function Dice() {
 	}
 
 	function startAgain() {
+		localStorage.setItem('toBeat', rollsToBeat);
 		setGameOver(false);
 		setCounter(1);
 
@@ -84,10 +98,19 @@ export default function Dice() {
 		<Die key={die.id} die={die} holdDie={() => holdDice(die.id)} />
 	));
 
+	function newRecordToBeat() {
+		if (!rollsToBeat || rollsToBeat < counter) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	const wonEl = (
 		<div>
 			<h1>You won!</h1>
-			<p class='game-info'>
+			{newRecordToBeat() && <p className='game-info'>New score to beat!</p>}
+			<p className='game-info'>
 				It took you <span>{counter}</span> rolls to achieve the goal.
 			</p>
 			<button className='btn' onClick={startAgain}>
@@ -97,7 +120,7 @@ export default function Dice() {
 	);
 
 	const gameEl = (
-		<div class='game-container'>
+		<div className='game-container'>
 			<header>
 				<h1>Tenzies</h1>
 				<p>
@@ -109,7 +132,7 @@ export default function Dice() {
 			<button className='btn' onClick={getNewRoll}>
 				Roll
 			</button>
-			<Counter count={counter} />
+			<Counter count={counter} toBeat={rollsToBeat} />
 		</div>
 	);
 

@@ -48,11 +48,16 @@ main header p {
 	right: 1rem;
 	bottom: 0;
 	font-size: 1.4rem;
+	text-align: end;
 }
 
 .counter span {
 	color: #5d46f9;
 	font-weight: bold;
+}
+
+.counter p {
+	margin: 0;
 }
 
 .game-info {
