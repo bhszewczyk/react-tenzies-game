@@ -38,3 +38,28 @@ main header p {
 .btn:hover {
 	background-color: #5d46f9;
 }
+
+.game-container {
+	position: relative;
+}
+
+.counter {
+	position: absolute;
+	right: 1rem;
+	bottom: 0;
+	font-size: 1.4rem;
+}
+
+.counter span {
+	color: #5d46f9;
+	font-weight: bold;
+}
+
+.game-info {
+	font-size: 1.6rem;
+}
+
+.game-info span {
+	color: #5d46f9;
+	font-weight: bold;
+}

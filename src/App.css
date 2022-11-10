@@ -10,4 +10,7 @@
 	min-height: 36rem;
 	min-width: 36rem;
 	border-radius: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }

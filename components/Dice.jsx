@@ -1,11 +1,13 @@
 import React from 'react';
 import Die from './Die';
+import Counter from './Counter';
 import './dice.css';
 import { nanoid } from 'nanoid';
 
 export default function Dice() {
 	const [isGameOver, setGameOver] = React.useState(false);
 	const [dice, setDice] = React.useState(generateDice());
+	const [counter, setCounter] = React.useState(1);
 
 	React.useEffect(() => {
 		const allHeld = dice.every((die) => die.isHeld === true);
@@ -41,6 +43,7 @@ export default function Dice() {
 	}
 
 	function getNewRoll() {
+		setCounter((oldCount) => oldCount + 1);
 		setDice((oldState) => {
 			const newState = oldState.map((die) => {
 				if (die.isHeld === true) {
@@ -72,6 +75,7 @@ export default function Dice() {
 
 	function startAgain() {
 		setGameOver(false);
+		setCounter(1);
 
 		setDice(generateDice());
 	}
@@ -83,14 +87,17 @@ export default function Dice() {
 	const wonEl = (
 		<div>
 			<h1>You won!</h1>
+			<p class='game-info'>
+				It took you <span>{counter}</span> rolls to achieve the goal.
+			</p>
 			<button className='btn' onClick={startAgain}>
-				Play again!
+				Play again
 			</button>
 		</div>
 	);
 
 	const gameEl = (
-		<div>
+		<div class='game-container'>
 			<header>
 				<h1>Tenzies</h1>
 				<p>
@@ -102,6 +109,7 @@ export default function Dice() {
 			<button className='btn' onClick={getNewRoll}>
 				Roll
 			</button>
+			<Counter count={counter} />
 		</div>
 	);
 
